@@ -1,11 +1,21 @@
-import { Application } from "https://deno.land/x/oak@v12.6.1/mod.ts";
-import router from "./routes.ts"; // Import our router
+import { serve } from "https://deno.land/std@0.166.0/http/server.ts";
+import { Server } from "https://deno.land/x/socket_io@0.2.0/mod.ts";
 
-const PORT = 3000;
-const app = new Application();
+const io = new Server();
 
-app.use(router.routes()); // Implement our router
-app.use(router.allowedMethods()); // Allow router HTTP methods
+io.on("connection", (socket) => {
+  console.log(`socket ${socket.id} connected`);
 
-console.log(`Server listening on port ${PORT}`);
-await app.listen({ port: PORT });
+  socket.emit("hello", "world");
+
+  socket.on("disconnect", (reason) => {
+    console.log(`socket ${socket.id} disconnected due to ${reason}`);
+  });
+  socket.on("color",(msg)=>{
+    console.log("teri "+msg)
+  })
+});
+
+await serve(io.handler(), {
+  port: 8080,
+});
