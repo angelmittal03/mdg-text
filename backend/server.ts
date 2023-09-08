@@ -20,12 +20,13 @@ function broadcast_usernames() {
     "Sending updated username list to all clients: " +
       JSON.stringify(usernames),
   );
-  broadcast(
-    JSON.stringify({
-      event: "update-users",
-      usernames: usernames,
-    }),
-  );
+  // broadcast(
+  //   JSON.stringify({
+  //     event: "update-users",
+  //     usernames: usernames,
+  //     message:"new user added"
+  //   }),
+  // );
 }
 
 router.get("/start_web_socket", async (ctx) => {
@@ -57,6 +58,7 @@ router.get("/start_web_socket", async (ctx) => {
     const data = JSON.parse(m.data);
     switch (data.event) {
       case "send-message":
+        console.log(data)
         broadcast(
           JSON.stringify({
             event: "send-message",

@@ -1,14 +1,14 @@
 import { useSignal } from "@preact/signals";
 import { useEffect } from "preact/hooks";
-import Editor from "../islands/Editor.tsx";
+import Editor from "../../islands/Editor.tsx";
 import chalk from "npm:chalk@5";
-import io from "npm:socket.io-client@4.7.2";
+import { RouteContext } from "$fresh/server.ts";
 
 
 
-export default async function  Home() {
+export default async function  Home(_req: Request, ctx: RouteContext) {
 console.log(chalk.yellow("Hello!"));
-const socket = await io("http://localhost:8080/")
+
  
   return (
     <div class="px-4 py-8 mx-auto bg-[#86efac]">
@@ -25,7 +25,7 @@ const socket = await io("http://localhost:8080/")
           Try updating this message in the
           <code class="mx-2">./routes/index.tsx</code> file, and refresh.
         </p>
-        {/* <Editor conn={}/> */}
+        <Editor conn={ctx.params.user}/>
       </div>
     </div>
   );
