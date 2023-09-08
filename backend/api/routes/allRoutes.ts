@@ -1,10 +1,10 @@
 import { Router } from "https://deno.land/x/oak/mod.ts";
 import {signup, signin} from "../controllers/users.ts";
 import { socketConnection } from "../controllers/webSocket.ts";
- const router = new Router();
+ const route = new Router();
 
-router.post("/api/signup", signup)
-router.post("/api/signin", signin);
-router.get("api/start_web_socket" , socketConnection);
+route.post("/api/signup", signup)
+route.post("/api/signin", signin);
 
-export default router;
+
+export default route;
