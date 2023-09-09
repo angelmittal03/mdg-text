@@ -4,7 +4,7 @@ import { UserSchema } from "../schema/user.ts";
 import { create } from "https://deno.land/x/djwt@v2.4/mod.ts";
 import { key } from "../utils/apiKey.ts";
 const Users = db.collection<UserSchema>("users");
-
+console.log(Users)
     //create a user
     export const signup = async({request, response}:{request:any;response:any}) => {
     const {username, password} = await request.body().value;
@@ -66,3 +66,8 @@ const Users = db.collection<UserSchema>("users");
     }
         return;
     }
+
+
+
+
+    

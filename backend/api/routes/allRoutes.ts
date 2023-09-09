@@ -1,13 +1,15 @@
 import { Router } from "https://deno.land/x/oak/mod.ts";
-import {signup, signin} from "../controllers/users.ts";
-import { createDoc, deleteDoc, readDoc, updateDoc } from "../controllers/docs.ts";
+import {signup, signin,} from "../controllers/users.ts";
+import { addContributor, createDoc, deleteDoc, getAll, readDoc, updateDoc } from "../controllers/docs.ts";
  const route = new Router();
 
 route.post("/api/signup", signup)
 route.post("/api/signin", signin);
-route.get("/api/doc/createDoc",createDoc)
-route.get("/api/doc/updateDoc",updateDoc)
+route.post("/api/doc/createDoc",createDoc)
+route.post("/api/doc/updateDoc",updateDoc)
 route.get("/api/doc/deleteDoc",deleteDoc)
-route.get("/api/doc/readDoc",readDoc)
+route.post("/api/doc/readDoc",readDoc)
+route.post("/api/doc/getAll",getAll)
+route.post("/api/doc/addContributor",addContributor)
 
 export default route;
