@@ -1,6 +1,6 @@
 import { Server } from "https://deno.land/x/socket_io@0.2.0/mod.ts";
 
-
+const {id:documentId}=useParams()
 const SocketHandler = (req, _ctx) => {
     if (_ctx.socket.server.io) {
       console.log('Socket is already running')
@@ -11,7 +11,7 @@ const SocketHandler = (req, _ctx) => {
   
       io.on('connection', socket => {
         socket.on('input-change', msg => {
-          socket.broadcast.emit('update-input', msg)
+          socket.broadcast.emit('get-document', documentId)
         })
       })
     }

@@ -1,6 +1,11 @@
 import { useSignal } from "@preact/signals";
 import { useEffect } from "preact/hooks";
+<<<<<<< Updated upstream
 import Counter from "../islands/Counter.tsx";
+=======
+import { h, render, Component } from "preact";
+import Editor from "../islands/Editor.tsx";
+>>>>>>> Stashed changes
 import chalk from "npm:chalk@5";
 import io from "npm:socket.io-client@4.7.2";
 
