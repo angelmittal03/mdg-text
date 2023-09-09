@@ -123,13 +123,14 @@ export const updateDoc = async ({ request, response }: { request: any, response:
   };
   export const getAll = async ({ request, response }: { request: any, response: any }) => {
     try {
-      const docs = await Docs.find()
+      const {username} = await request.body().value
+      const docs = await Docs.find({owner:username})
       const arr = await docs.toArray()
       for(var i=0;i<arr.length;i++){
         console.log(arr[i])
       }
      console.log(typeof(docs))
-     console.log(docs)
+     console.log(arr)
       response.body = {ls:arr}
     } catch (error) {
       console.error("Error:", error);
