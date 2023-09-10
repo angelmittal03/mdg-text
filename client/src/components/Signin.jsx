@@ -14,9 +14,15 @@ export const Signin = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
+
 			const url = "http://localhost:8080/api/signin";
-			const { data: res } = await axios.post(url, data);
-			localStorage.setItem("token", res.data);
+			const res = await axios.post(url, (data));
+			localStorage.setItem("token", (res.data["token"]));
+			localStorage.setItem("user",(res.data["userId"]))
+			// console.log(JSON.parse(res.data)["token"]);
+			// console.log(JSON.parse(res.data)["username"]);
+			console.log(res.data['token'])
+			console.log(res.data['userId'])
 			navigate("./dashboard");
 		} catch (error) {
 			if (

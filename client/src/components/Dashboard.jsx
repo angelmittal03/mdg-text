@@ -23,6 +23,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import DescriptionIcon from '@mui/icons-material/Description';
 import SaveIcon from '@mui/icons-material/Save';
 import axios from 'axios';
+import Editor from "./Editor";
 
 // Define your custom theme with the primary color #3bb19b
 const theme = createTheme({
@@ -44,7 +45,10 @@ export function Dashboard() {
 
   const fetchDocuments = async () => {
     try {
-      const response = await axios.post(`${API_URL}/getAll`);
+      const response = await axios.post(`${API_URL}/getAll`,{
+        "username":localStorage.getItem("user")
+      });
+      console.log(response)
       if (response.status === 200) {
         setDocuments(response.data.ls);
       } else {
@@ -65,7 +69,9 @@ export function Dashboard() {
 
   const handleCreateDocument = async () => {
     try {
-      const response = await axios.post(`${API_URL}/createDoc`, newDocument, {
+      let ndoc  =newDocument
+      ndoc["username"] = localStorage.getItem('user')
+      const response = await axios.post(`${API_URL}/createDoc`, ndoc, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -73,7 +79,7 @@ export function Dashboard() {
 
       if (response.status === 200) {
         fetchDocuments();
-        setNewDocument({ name: '', author: '' , username : ''});
+        setNewDocument({ name: '', author: '' , username :''});
       } else {
         console.error('Failed to create a document');
       }
@@ -143,12 +149,12 @@ export function Dashboard() {
 
   const handleAddContributor = async () => {
     try {
-      const response = await axios.post(`${API_URL}/addContributor`, {
-        params: {
+      const response = await axios.post(`${API_URL}/addContributor`,{
           name: contributorInfo.name,
           contributor_code: contributorInfo.contributor_code,
+          username : localStorage.getItem("user")
         },
-      });
+      );
 
       if (response.status === 200) {
         fetchDocuments();
@@ -244,23 +250,10 @@ export function Dashboard() {
               </Typography>
               <Typography variant="h6">Name: {selectedDocument.name}</Typography>
               <Typography variant="h6">Author: {selectedDocument.author}</Typography>
-              <TextField
-                label="Content"
-                multiline
-                rows={6}
-                fullWidth
-                value={documentContent}
-                onChange={(e) => setDocumentContent(e.target.value)}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<SaveIcon />}
-                onClick={handleUpdateDocument}
-                style={{ marginTop: '10px' }}
-              >
-                Update Document
-              </Button>
+              
+              <Editor conn={localStorage.getItem("user")} doc={selectedDocument.name}/>
+              
+              
             </Paper>
           )}
           <Divider style={{ marginTop: '20px' }} />
