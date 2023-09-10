@@ -1,23 +1,27 @@
 import db from "../database/connectionDB.ts";
-import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
 import { DocSchema } from "../schema/docs.ts";
-import { create } from "https://deno.land/x/djwt@v2.4/mod.ts";
-import { key } from "../utils/apiKey.ts";
 const Docs = db.collection<DocSchema>("docs");
-
+console.log(Docs)
 //Create Docs
-export const createDoc = async({request,response}:{request:any,response:any})=>{
+export const createDoc = async({request,response}:{request:any;response:any}) => {
 const {name, author,username} = await request.body().value;
+let contributor = []
+contributor.push(username)
+console.log(name)
 const _id = await Docs.insertOne({
     name: name,
     owner:username,
     author:author,
     content:"",
-    contributor :[],
+    contributor :contributor,
     view_only : [],
     contributor_code:crypto.randomUUID(),
     view_only_code :crypto.randomUUID()
     });
+ response.body = {message:"doc created",id:_id}
+
+
+
 }
 export const updateDoc = async ({ request, response }: { request: any, response: any }) => {
     try {
@@ -26,8 +30,6 @@ export const updateDoc = async ({ request, response }: { request: any, response:
       // Define the filter to find the document based on the name and owner
       const filter = {
         name: name,
-        owner: username,
-        author: author,
       };
   
       // Define the update object to set the new content value
@@ -39,6 +41,7 @@ export const updateDoc = async ({ request, response }: { request: any, response:
   
       // Use the updateOne method to find and update the document
       const document = await Docs.findOne(filter);
+      console.log(document)
       if(document){
         if(document.contributor.includes(username)){
             const result = await Docs.updateOne(filter, update);
@@ -65,8 +68,10 @@ export const updateDoc = async ({ request, response }: { request: any, response:
   };
   
   export const deleteDoc = async ({ request, response }: { request: any, response: any }) => {
+    console.log(request.url.search.split("name=")[1])
     try {
-      const { name,owner } = request.url.params;
+      const name = request.url.search.split("name=")[1];
+      console.log(name)
   
       // Define the filter to find the document based on the name, owner, and author
       const filter = {
@@ -81,7 +86,7 @@ export const updateDoc = async ({ request, response }: { request: any, response:
         response.body = { message: "Document deleted successfully." };
       } else {
         response.status = 404;
-        response.body = { message: "Document not found." };
+        response.body = { message: result };
       }
     } catch (error) {
       console.error("Error:", error);
@@ -92,17 +97,16 @@ export const updateDoc = async ({ request, response }: { request: any, response:
   
   export const readDoc = async ({ request, response }: { request: any, response: any }) => {
     try {
-      const { name, author, username } = await request.queryParams;
+      const { name } = request.url.search.split("name=")[1];
   
       // Define the filter to find a single document based on the name, owner, and author
       const filter = {
         name: name,
-        owner: username,
-        author: author,
       };
   
       // Use the findOne method to fetch a single document that matches the filter criteria
       const document = await Docs.findOne(filter);
+    
   
       if (document) {
         response.status = 200;
@@ -117,4 +121,48 @@ export const updateDoc = async ({ request, response }: { request: any, response:
       response.body = { error: "Internal Server Error" };
     }
   };
+  export const getAll = async ({ request, response }: { request: any, response: any }) => {
+    try {
+      const {username} = await request.body().value
+      const docs = await Docs.find({owner:username})
+      const arr = await docs.toArray()
+      for(var i=0;i<arr.length;i++){
+        console.log(arr[i])
+      }
+     console.log(typeof(docs))
+     console.log(arr)
+      response.body = {ls:arr}
+    } catch (error) {
+      console.error("Error:", error);
+      response.status = 500;
+      response.body = { error: "Internal Server Error" };
+    }
+  };
+  export const addContributor = async ({request,response}:{request:any,response:any})=>{
+    const {name,contributor_code,username} = await request.body().value
+    const filter = {
+      name:name,
+      contributor_code:contributor_code
+    }
+    const doc = await Docs.findOne(filter)
+    const arr = doc.contributor
+    arr.push(username)
+    if(doc){
+      const update = {
+        $set: {
+          contributor: arr,
+        },
+      };
+      const result = await Docs.updateOne(filter, update);
   
+      if (result.matchedCount === 1) {
+        response.status = 200;
+        response.body = { message: "Document updated successfully." };
+      } else {
+        response.status = 404;
+        response.body = { message: "Document not found." };
+      }
+
+
+    }
+  }
