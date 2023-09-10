@@ -1,0 +1,106 @@
+/* src/components/Homepage.css */
+/* Reset some default styles */
+body, h1, p, button {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Set up the color theme */
+  .homepage {
+    background-color: #fff;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .content {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 36px;
+    color: #3bb19b;
+    margin-bottom: 20px;
+  }
+  
+  .description {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 40px;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .sign-in-button,
+  .sign-up-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  
+  .sign-in-button {
+    background-color: #3bb19b;
+    color: #fff;
+  }
+  
+  .sign-up-button {
+    background-color: transparent;
+    color: #3bb19b;
+    border: 2px solid #3bb19b;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .sign-up-button:hover {
+    background-color: #3bb19b;
+    color: #fff;
+  }
+  
+  .features {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 40px;
+    animation: fade-in 1s ease-in-out;
+  }
+  
+  .feature {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .feature-icon {
+    font-size: 36px;
+    color: #3bb19b;
+    margin-bottom: 10px;
+    animation: bounce 1s ease infinite alternate;
+  }
+  
+  .feature-text {
+    font-size: 18px;
+    color: #333;
+  }
+  
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes bounce {
+    to {
+      transform: translateY(-5px);
+    }
+  }
+  
