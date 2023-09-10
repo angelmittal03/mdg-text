@@ -4,15 +4,15 @@
 # To setup frontend
 
 ```
-cd frontend
+cd client
 
-deno task start
+npm start
 
 ```
 # To setup backend 
 
 ```
-cd backend
+cd server
 
 deno run --allow-net server.ts
 
