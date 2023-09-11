@@ -1,6 +1,6 @@
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
-import route from "./api/routes/allRoutes.js";
+import route from "./api/routes/allRoutes.ts";
 const connectedClients = new Map();
 
 

@@ -1,8 +1,8 @@
-import db from "../database/connectionDB.js";
+import db from "../database/connectionDB.ts";
 import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
-import { UserSchema } from "../schema/user.js";
+import { UserSchema } from "../schema/user.ts";
 import { create } from "https://deno.land/x/djwt@v2.4/mod.ts";
-import { key } from "../utils/apiKey.js";
+import { key } from "../utils/apiKey.ts";
 const Users = db.collection<UserSchema>("users");
 console.log(Users)
     //create a user

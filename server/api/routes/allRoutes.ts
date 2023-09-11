@@ -1,6 +1,6 @@
 import { Router } from "https://deno.land/x/oak/mod.ts";
-import {signup, signin,} from "../controllers/users.js";
-import { addContributor, createDoc, deleteDoc, getAll, readDoc, updateDoc } from "../controllers/docs.js";
+import {signup, signin,} from "../controllers/users.ts";
+import { addContributor, createDoc, deleteDoc, getAll, readDoc, updateDoc } from "../controllers/docs.ts";
  const route = new Router();
 
 route.post("/api/signup", signup)

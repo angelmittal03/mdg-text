@@ -1,5 +1,5 @@
-import db from "../database/connectionDB.js";
-import { DocSchema } from "../schema/docs.js";
+import db from "../database/connectionDB.ts";
+import { DocSchema } from "../schema/docs.ts";
 const Docs = db.collection<DocSchema>("docs");
 console.log(Docs)
 //Create Docs
